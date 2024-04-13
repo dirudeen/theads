@@ -1,7 +1,14 @@
+import Image from 'next/image'
+import Link from 'next/link'
 import React from 'react'
 
 export default function TopBar() {
   return (
-    <div>TopBar</div>
+   <nav className='topbar'>
+    <Link href={"/"}>
+      <Image src={".."}  alt=''/>
+      <p className='head-text'>Threads</p>
+    </Link>
+   </nav> 
   )
 }

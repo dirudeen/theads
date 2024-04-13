@@ -22,9 +22,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <TopBar />
-        <main>
+        <main className="flex">
           <LeftSidebar />
-          <section className="">
+          <section className="main-container">
             <div>{children}</div>
           </section>
           <RightSidebar />
