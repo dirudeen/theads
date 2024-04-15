@@ -1,3 +1,5 @@
+import AccountProfile from "@/components/form/AccountProfile";
+
 export default function OnboardingPage() {
     return(
         <main className="mx-auto flex flex-col px-10 py-20">
