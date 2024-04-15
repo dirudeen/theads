@@ -19,7 +19,7 @@ export default async function OnboardingPage() {
             <h1 className="head-text">Onboarding</h1>
             <p className="mt-4 text-light-2 text-base-regular">{`👋 Welcome! You're officially part of the team. Let's start this exciting journey together! 🚀`}</p>
 
-            <section className="mt-9 bg-dark-2 py-10">
+            <section className="mt-9 bg-dark-2 p-10">
                 <AccountProfile user={userData} btnTitle="Continue" />
             </section>
         </main>
