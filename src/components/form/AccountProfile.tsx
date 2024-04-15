@@ -55,8 +55,8 @@ export default function AccountProfile({ user, btnTitle }: Props) {
           control={form.control}
           name="username"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>
+            <FormItem className="flex items-center gap-4">
+              <FormLabel className="account-form_image-label">
                 {field.value ? (
                   <Image
                     src={field.value}
