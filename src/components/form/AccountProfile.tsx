@@ -18,6 +18,9 @@ import { UserValidation } from "@/lib/validation/user";
 import Image from "next/image";
 import { ChangeEvent, useState } from "react";
 import { Textarea } from "../ui/textarea";
+import { isBase64Image } from "@/lib/utils";
+import { useUploadThing } from "@/lib/uploadthing";
+
 interface Props {
   user: {
     id: string;
@@ -32,6 +35,7 @@ interface Props {
 
 export default function AccountProfile({ user, btnTitle }: Props) {
   const [files, setFiles] = useState<File[]>([])
+  const { startUpload } = useUploadThing("media")
   const form = useForm({
     resolver: zodResolver(UserValidation),
     defaultValues: {
@@ -57,15 +61,21 @@ export default function AccountProfile({ user, btnTitle }: Props) {
         const imageURL = e.target?.result?.toString() || ""
         onChange(imageURL)
       }
-      
       reader.readAsDataURL(file)
     }
   };
 
-  const onSubmit = (values: z.infer<typeof UserValidation>) => {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  const onSubmit = async (values: z.infer<typeof UserValidation>) => {
+    const blob = values.profile_photo
+    const hasImageChanged = isBase64Image(blob)
+
+    if (hasImageChanged) {
+      // upload image to uploadthing
+      const imageResponse = await startUpload(files)
+        console.log(imageResponse)
+    }
+
+    // Todo implement sending data to backend
   };
 
   return (
