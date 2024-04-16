@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UserValidation } from "@/lib/validation/user";
 import Image from "next/image";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useState } from "react";
 import { Textarea } from "../ui/textarea";
 interface Props {
   user: {
@@ -31,18 +31,35 @@ interface Props {
 }
 
 export default function AccountProfile({ user, btnTitle }: Props) {
+  const [files, setFiles] = useState<File[]>([])
   const form = useForm({
     resolver: zodResolver(UserValidation),
     defaultValues: {
-      profile_photo: "",
-      username: "",
-      name: "",
-      bio: "",
+      profile_photo: user.image || "",
+      username: user.username || "",
+      name: user.name || "",
+      bio: user.bio || "",
     },
   });
 
-  const imageHandler = (e: ChangeEvent, onChange: (value: string) => void) => {
+  const imageHandler = (e: ChangeEvent<HTMLInputElement>, onChange: (value: string) => void) => {
     e.preventDefault();
+
+    const reader = new FileReader();
+
+    if (e.target.files && e.target.files.length > 1) {
+      const file = e.target.files[0];
+      setFiles(Array.from(e.target.files))
+      
+      if (!file.type.includes("image")) return 
+
+      reader.onload = async (e) => {
+        const imageURL = e.target?.result?.toString() || ""
+        onChange(imageURL)
+      }
+      
+      reader.readAsDataURL(file)
+    }
   };
 
   const onSubmit = (values: z.infer<typeof UserValidation>) => {
