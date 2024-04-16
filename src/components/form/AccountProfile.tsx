@@ -20,12 +20,12 @@ import { ChangeEvent, useState } from "react";
 import { Textarea } from "../ui/textarea";
 interface Props {
   user: {
-    id: string | undefined;
+    id: string;
     objectId: string;
     username: string;
     name: string;
     bio: string;
-    image: string | undefined;
+    image: string;
   };
   btnTitle: string;
 }
