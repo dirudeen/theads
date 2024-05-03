@@ -16,6 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Textarea } from "../ui/textarea";
 import { usePathname, useRouter } from "next/navigation";
 import { ThreadValidation } from "@/lib/validation/thread";
+import { createThread } from "@/lib/actions/thread.action";
 
 
 export function PostThread({userId}: {userId: string}) {
@@ -32,9 +33,13 @@ export function PostThread({userId}: {userId: string}) {
   });
 
   const onSubmit = async (values: z.infer<typeof ThreadValidation>) => {
-    // await createThread({
-        
-    // })
+    await createThread({
+        text: values.thread,
+        path: pathname,
+        author: values.accountId,
+        communityId: null
+    })
+    router.push("/")
   };
 
   return (<>
