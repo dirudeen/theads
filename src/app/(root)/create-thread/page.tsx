@@ -10,7 +10,7 @@ export default async function CreateTheadPage() {
 
   const userInfo = await fetchUser(user?.id);
 
-  if (!userInfo.onboarded) redirect("/onboarding");
+  if (userInfo === null || !userInfo.onboarded) redirect("/onboarding");
   return (
     <>
       <h1 className="head-text">Create Thread</h1>
