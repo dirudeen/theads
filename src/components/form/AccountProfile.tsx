@@ -20,6 +20,8 @@ import { ChangeEvent, useState } from "react";
 import { Textarea } from "../ui/textarea";
 import { isBase64Image } from "@/lib/utils";
 import { useUploadThing } from "@/lib/uploadthing";
+import { updateUser } from "@/lib/actions/user.action";
+import { usePathname, useRouter } from "next/navigation";
 
 interface Props {
   user: {
@@ -36,6 +38,9 @@ interface Props {
 export default function AccountProfile({ user, btnTitle }: Props) {
   const [files, setFiles] = useState<File[]>([])
   const { startUpload } = useUploadThing("media")
+  const pathname = usePathname()
+  const router = useRouter()
+
   const form = useForm({
     resolver: zodResolver(UserValidation),
     defaultValues: {
@@ -75,7 +80,26 @@ export default function AccountProfile({ user, btnTitle }: Props) {
         console.log(imageResponse)
     }
 
-    // Todo implement sending data to backend
+    try {
+      await updateUser({
+        userId: user.id,
+        username: values.username,
+        name: values.name,
+        bio: values.bio,
+        image: values.profile_photo,
+        path: pathname
+      })
+
+
+      if(pathname === "\profile\edit"){
+        router.back()
+      } else {
+        router.push("/")
+      }
+    } catch (error) {
+      // Todo add appropriate error handling
+      console.log(error)
+    }
   };
 
   return (
