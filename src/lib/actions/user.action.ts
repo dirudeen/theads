@@ -1,0 +1,42 @@
+"use server";
+
+import { revalidatePath } from "next/cache";
+import { User } from "../models/user.model";
+import { connectToDB } from "../mongoose";
+
+interface updateUserProps {
+  userId: string;
+  username: string;
+  name: string;
+  bio: string;
+  image: string;
+  path: string;
+}
+export async function updateUser({
+  bio,
+  userId,
+  image,
+  username,
+  path
+}: updateUserProps): Promise<void> {
+  connectToDB();
+  try {
+    await User.findOneAndUpdate(
+      { id: userId },
+      {
+        username: username.toLowerCase(),
+        bio,
+        image,
+        onboarded: true,
+      },
+      { upsert: true }
+    );
+
+    if(path === "/profile/edit"){
+    revalidatePath(path)
+  }
+  } catch (error) {
+    throw new Error(`Failed to create/update user: ${error}`)
+  }
+
+}
