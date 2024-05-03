@@ -17,6 +17,7 @@ export async function updateUser({
   userId,
   image,
   username,
+  name,
   path
 }: updateUserProps): Promise<void> {
   connectToDB();
@@ -25,6 +26,7 @@ export async function updateUser({
       { id: userId },
       {
         username: username.toLowerCase(),
+        name,
         bio,
         image,
         onboarded: true,
