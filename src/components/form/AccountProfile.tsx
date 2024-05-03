@@ -142,6 +142,7 @@ export default function AccountProfile({ user, btnTitle }: Props) {
                   placeholder="Add profile photo"
                 />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -160,6 +161,7 @@ export default function AccountProfile({ user, btnTitle }: Props) {
                 className="account-form_input no-focus"
                 {...field} />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -177,6 +179,7 @@ export default function AccountProfile({ user, btnTitle }: Props) {
                 className="account-form_input no-focus"
                 {...field} />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -194,6 +197,7 @@ export default function AccountProfile({ user, btnTitle }: Props) {
                 className="account-form_input no-focus"
                 {...field} />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
