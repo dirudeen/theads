@@ -1,6 +1,6 @@
 "use server"
 import { revalidatePath } from "next/cache";
-import { Thread } from "../models/thread.model";
+import { Thread, ThreadType } from "../models/thread.model";
 import { User } from "../models/user.model";
 import { connectToDB } from "../mongoose";
 
@@ -16,14 +16,15 @@ export async function createThread({
   path,
   text,
 }: Params) {
-  connectToDB();
-
-  try {
+    
+    try {
+    connectToDB();
+    
     const createdThread = await Thread.create({
       author,
       communityId: null,
       text,
-    });
+    }) as ThreadType;
 
     // push the new thread to the user
     await User.findByIdAndUpdate(author, {
@@ -34,6 +35,6 @@ export async function createThread({
 
     revalidatePath(path);
   } catch (error) {
-    console.log(error);
+    throw new Error(`Failed to create thread ${error} `)
   }
 }
