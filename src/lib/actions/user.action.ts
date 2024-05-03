@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { User } from "../models/user.model";
+import { User, UserType } from "../models/user.model";
 import { connectToDB } from "../mongoose";
 
 interface updateUserProps {
@@ -41,4 +41,18 @@ export async function updateUser({
     throw new Error(`Failed to create/update user: ${error}`)
   }
 
+}
+
+export async function fetchUser(userId: string){
+    connectToDB()
+
+    try {
+       return await User
+        .findOne({id: userId}) as UserType
+        // .populate({
+        //     path: "communities"
+        // })
+    } catch (error) {
+        throw new Error(`Failed to fetch user: ${error}`)
+    }
 }
